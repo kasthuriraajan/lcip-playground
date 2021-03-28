@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
 import {Row, Col, Card, Button,Form,InputGroup } from 'react-bootstrap';
 import Login from './login';
+import Register from './register';
 
 class App extends Component{
     constructor(props){
@@ -77,11 +78,14 @@ class App extends Component{
     render(){
         var isPlayground = this.state.isPlayground;
         var isLoggedIn = this.state.isLoggedIn;
+        var isRegistered = this.state.isRegistered;
         var dashboard = (
             <div>
                 <h1>User app Dashboard</h1>
                 <Button variant="danger" type='button' onClick={this.logout}>Logout</Button>
             </div>);
+        var form = isRegistered?<Login goToRegisterPage= {this.register} loginState = {this.setLogin}/> : <Register getRegister={this.register}/>
+
         var playground = (
             <Row className="justify-content-md-center">
             <Col lg="4" md="4" sm="4">
@@ -116,8 +120,8 @@ class App extends Component{
         </Row>
         );
         return(
-            <div>
-               {isLoggedIn?dashboard : (isPlayground? playground : <Login goToRegisterPage= {this.register} loginState = {this.setLogin}/>)}
+            <div  style={{ marginTop:'150px'}}>
+               {isLoggedIn?dashboard : (isPlayground? playground : form )}
             </div>
         
         );
