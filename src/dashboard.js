@@ -33,10 +33,10 @@ class Dashboard extends Component{
         return(
         <div>
 {/*------------------------------- Navbar ------------------------------------- */}
-        <Navbar bg="dark" variant="dark" sticky="top" >
+        <Navbar variant="dark" sticky="top" className="primaryNav">
             <Navbar.Brand href="#home"><h1>Demo App </h1></Navbar.Brand>
              <Nav className="ml-auto">
-                <Navbar.Brand>This is a demo application</Navbar.Brand> 
+                <Navbar.Brand className="profile">This is a Demo Application</Navbar.Brand> 
                 <Button variant="danger" type='button' onClick={this.logout}>Logout</Button>
             </Nav>                   
         </Navbar>
@@ -69,7 +69,7 @@ class Dashboard extends Component{
         </Card>
 
 {/*------------------------------- Footer ------------------------------------- */}
-        <Navbar bg="dark" variant="dark" fixed="bottom" className="justify-content-center">
+        <Navbar variant="dark" fixed="bottom" className="justify-content-center primaryNav">
             <Navbar.Brand >Copyright&#169; 2021</Navbar.Brand>
         </Navbar>
                 

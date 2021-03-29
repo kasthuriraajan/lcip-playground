@@ -64,16 +64,15 @@ class App extends Component{
                     
 
         var playground = (
-            <Row className="justify-content-md-center">
+            <Row className="justify-content-md-center app-page">
             <Col lg="4" md="4" sm="4">
             <Card text = "dark" className="text-center" 
-            style={{ marginTop:'5px', marginRight:'5px', borderColor:'black'}}>
+            style={{ marginRight:'5px', borderColor:'black'}}>
             <Card.Header>
                 <h1> LCIP - Playground</h1>
                 <p>A Light-weight Cloud Identity provider</p>
             </Card.Header> 
-            <Card.Title  style={{ marginTop:'15px'}}><h2>Explore your App</h2></Card.Title>
-            <hr/>   
+            <Card.Title  style={{ marginTop:'15px'}}><h2>App Details</h2></Card.Title>
                 <Form style={{ margin:'15px'}} onSubmit={this.handleSubmit}>
                     <InputGroup className="mb-2 mr-sm-2">
                         <InputGroup.Prepend>
@@ -89,6 +88,7 @@ class App extends Component{
                         <Form.Control type="text" name="appId" value={this.state.appId} placeholder="Application ID" 
                         onChange ={this.handleChange} required/>
                     </InputGroup> 
+                    <br/>
                     <Button variant="secondary" type='button' onClick={this.clear} size="lg" style={{ margin:'5px'}}>Clear</Button>
                     <Button variant="success" type='submit' value="Submit" size="lg" >Go to Login</Button>                      
                 </Form>
@@ -98,7 +98,7 @@ class App extends Component{
         );
         return(
             <div>
-               {isLoggedIn?<Dashboard loginState={this.logout}/> : <div style={{ marginTop:'150px'}}> {(isPlayground? playground : form )}</div>}
+               {isLoggedIn?<Dashboard loginState={this.logout}/> : <>{(isPlayground? playground : form )}</>}
             </div>
         
         );

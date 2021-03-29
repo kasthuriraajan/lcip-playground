@@ -55,13 +55,13 @@ class Register extends Component{
 
     render(){
         return(
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-md-center login-page">
             <Col lg="4" md="4" sm="4">
             <Card text = "dark" className="text-center" 
             style={{ marginTop:'5px', marginRight:'5px', borderColor:'black'}}>
             <Card.Header>
                 <h1> LCIP </h1>
-                <p>A Light-weight Cloud Identity provider</p>
+                <p>Light-weight Cloud Identity Provider</p>
             </Card.Header> 
             <Card.Title  style={{ marginTop:'15px'}}><h2>Register Here</h2></Card.Title>
             <hr/>   

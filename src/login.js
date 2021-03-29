@@ -112,16 +112,16 @@ class Login extends Component{
 
     render(){
         return(
-            <Row className="justify-content-md-center">
+            <Row className={ this.state.isLoginProcess? "justify-content-md-center login-page loader2" : "justify-content-md-center login-page" } >
                 <Col lg="4" md="4" sm="4">
                 <Card text = "dark" className="text-center" 
-                style={{ marginTop:'5px', marginRight:'5px', borderColor:'black'}}>
+                style={{ marginRight:'5px', borderColor:'black'}}>
                 <Card.Header>
                     <h1> LCIP </h1>
-                    <p>A Light-weight Cloud Identity provider</p>
+                    <p>Light-weight Cloud Identity Provider</p>
                 </Card.Header> 
                 <Card.Title  style={{ marginTop:'15px'}}><h2>Login</h2></Card.Title>
-                <hr/>   
+                {/* <hr/>    */}
                     <Form style={{ margin:'15px'}} onSubmit={this.handleSubmit}>
                         <InputGroup className="mb-2 mr-sm-2">
                             <InputGroup.Prepend>
@@ -139,7 +139,16 @@ class Login extends Component{
                         </InputGroup>
                         <Button variant="secondary" type='button' onClick={this.cancel} size="lg" style={{ margin:'5px'}}>Cancel</Button>
                         <Button variant="primary" type="submit" value="Submit" size="lg">Login</Button>
-                        {this.state.isLoginProcess?(<h2>Login process is happening</h2>):null}                 
+                        { this.state.isLoginProcess && (
+                               <>
+                                <br/>
+                                <Button className="buttonload2" >
+                                    <i class="fa fa-refresh fa-spin"/>
+                                        Login process is happening
+                                </Button>
+                               </>
+                            )
+                        }                 
                     </Form>
                     <Card.Footer className="text-muted">Are you new to LCIP ? <Button variant="secondary" 
                          type='button' size="lg" onClick={this.toRegister}>Register Here</Button></Card.Footer>
