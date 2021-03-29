@@ -6,8 +6,6 @@ class Register extends Component{
     constructor(props){
         super(props);
         this.state = {
-            appId : "A001",
-            tenantName:"",
             email:"",
             username : "",
             password : ""
@@ -18,35 +16,23 @@ class Register extends Component{
     }
     
     handleSubmit = (event)=> {
-        alert('Tenant : '+ this.state.tenantName+'UserName: ' + this.state.username);
-        const tenantInfo ={
-            tenantName : this.state.tenantName
-        }        
-        this.createTenant(tenantInfo);
-        event.preventDefault();
-    }
-
-    createTenant = (tenantInfo)=>{
-        fetch('http://localhost:9090/echo',{
-        method: 'POST',
-        headers: {
-            'content-type':'application/json'
-        },
-            body: JSON.stringify(tenantInfo)
-        })
-        .then(res => res.json())
-        .then(data =>console.log(data));
         const userInfo = {
-            tenantId : "T001",
+            tenantId : localStorage.getItem("tenantId"),
             userEmail: this.state.email,
             userName : this.state.username,
             password : this.state.password
         }
+        this.setState({
+            email:"",
+            username : "",
+            password : ""
+        });   
         this.register(userInfo);
+        event.preventDefault();
     }
 
     register = (userInfo)=>{
-        fetch('http://localhost:9090/echo',{
+        fetch('https://5n3eaptgj4.execute-api.us-east-1.amazonaws.com/dev/user',{
         method: 'POST',
         headers: {
             'content-type':'application/json'
@@ -56,6 +42,15 @@ class Register extends Component{
     .then(res => res.json())
     .then(data =>console.log(data));
     this.props.getRegister(true);
+    }
+
+    cancel = ()=>{
+        this.setState({
+            email:"",
+            username : "",
+            password : ""
+        });
+        this.props.getRegister(true);
     }
 
     render(){
@@ -73,33 +68,26 @@ class Register extends Component{
                 <Form style={{ margin:'15px'}} onSubmit={this.handleSubmit}>
                     <InputGroup className="mb-2 mr-sm-2">
                         <InputGroup.Prepend>
-                        <InputGroup.Text><FontAwesomeIcon icon='university'/> </InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <Form.Control type="text" name="tenantName" value={this.state.tenantName} placeholder="Tenant Name" 
-                        onChange ={this.handleChange}/>
-                    </InputGroup>
-                    <InputGroup className="mb-2 mr-sm-2">
-                        <InputGroup.Prepend>
                         <InputGroup.Text><FontAwesomeIcon icon='envelope'/></InputGroup.Text>
                         </InputGroup.Prepend>
                         <Form.Control type="email" name="email" value={this.state.email} placeholder="Email" 
-                        onChange ={this.handleChange}/>
+                        onChange ={this.handleChange} required/>
                     </InputGroup>
                     <InputGroup className="mb-2 mr-sm-2">
                         <InputGroup.Prepend>
                         <InputGroup.Text><FontAwesomeIcon icon='user'/></InputGroup.Text>
                         </InputGroup.Prepend>
                         <Form.Control type="text" name="username" value={this.state.username} placeholder="Username" 
-                        onChange ={this.handleChange}/>
+                        onChange ={this.handleChange} required/>
                     </InputGroup> 
                     <InputGroup className="mb-2 mr-sm-2">
                         <InputGroup.Prepend>
                         <InputGroup.Text><FontAwesomeIcon icon='key'/></InputGroup.Text>
                         </InputGroup.Prepend>
                         <Form.Control type="password" name="password" value={this.state.password} placeholder="Password" 
-                        onChange ={this.handleChange}/>
+                        onChange ={this.handleChange} required/>
                     </InputGroup>
-                    <Button variant="secondary" type='submit' size="lg" style={{ margin:'5px'}}>Clear</Button>
+                    <Button variant="secondary" type='button' onClick={this.cancel} size="lg" style={{ margin:'5px'}}>Cancel</Button>
                     <Button variant="success" type='submit' value="Submit" size="lg" >Register</Button>                      
                 </Form>
             </Card>

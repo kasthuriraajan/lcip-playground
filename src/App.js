@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
 import {Row, Col, Card, Button,Form,InputGroup } from 'react-bootstrap';
+import Dashboard from './dashboard';
 import Login from './login';
 import Register from './register';
 
@@ -11,7 +12,7 @@ class App extends Component{
             isPlayground : true,
             isLoggedIn : false,
             isRegistered : true,
-            appId : "A001",
+            appId : "",
             tenantName:"",
             email:"",
             username : "",
@@ -23,44 +24,26 @@ class App extends Component{
     }
     
     handleSubmit = (event)=> {
-        alert('Tenant : '+ this.state.tenantName+'App Id: ' + this.state.appId);
-        this.setState({isPlayground : false});
-        // const tenantInfo ={
-        //     tenantName : this.state.tenantName,
-        //     appId : this.state.appId
-        // }        
-        // this.createTenant(tenantInfo);
+        localStorage.setItem("tenantId", this.state.tenantName);
+        localStorage.setItem("appId", this.state.appId);
+        this.setState({
+            isPlayground : false,
+            appId : "",
+            tenantName:""
+        });
         event.preventDefault();
     }
 
     setLogin = (resp) =>{
-        this.setState({isLoggedIn : resp});
+        this.setState({isLoggedIn : resp, isPlayground : true,});
     }
-    logout = () => {
+    logout = (resp) => {
+        localStorage.clear();
         this.setState({
             isLoggedIn : false,
             isPlayground : true
         })
     }
-
-    // createTenant = (tenantInfo)=>{
-    //     fetch('http://localhost:9090/echo',{
-    //     method: 'POST',
-    //     headers: {
-    //         'content-type':'application/json'
-    //     },
-    //         body: JSON.stringify(tenantInfo)
-    //     })
-    //     .then(res => res.json())
-    //     .then(data =>console.log(data));
-    //     const userInfo = {
-    //         tenantId : "T001",
-    //         userEmail: this.state.email,
-    //         userName : this.state.username,
-    //         password : this.state.password
-    //     }
-    //     // this.register(userInfo);
-    // }
 
     register = (resp)=>{
     //     fetch('http://localhost:9090/echo',{
@@ -74,17 +57,25 @@ class App extends Component{
     // .then(data =>console.log(data));
         this.setState({isRegistered:resp});
     }
-
-    render(){
+    clear = ()=>{
+        this.setState({
+            appId : "",
+            tenantName:""
+        });
+    }
+    
+    render(){        
         var isPlayground = this.state.isPlayground;
         var isLoggedIn = this.state.isLoggedIn;
         var isRegistered = this.state.isRegistered;
-        var dashboard = (
-            <div>
-                <h1>User app Dashboard</h1>
-                <Button variant="danger" type='button' onClick={this.logout}>Logout</Button>
-            </div>);
-        var form = isRegistered?<Login goToRegisterPage= {this.register} loginState = {this.setLogin}/> : <Register getRegister={this.register}/>
+        // var dashboard = (
+        //     <div>
+        //         <h1>User app Dashboard</h1>
+        //         <Button variant="danger" type='button' loginState={this.logout}>Logout</Button>
+        //     </div>);
+        var form = isRegistered?<Login goToRegisterPage= {this.register} loginState = {this.setLogin}/> : 
+                    <Register getRegister={this.register}/>
+                    
 
         var playground = (
             <Row className="justify-content-md-center">
@@ -103,16 +94,16 @@ class App extends Component{
                         <InputGroup.Text><FontAwesomeIcon icon='university'/> </InputGroup.Text>
                         </InputGroup.Prepend>
                         <Form.Control type="text" name="tenantName" value={this.state.tenantName} placeholder="Tenant Name" 
-                        onChange ={this.handleChange}/>
+                        onChange ={this.handleChange} required/>
                     </InputGroup>
                     <InputGroup className="mb-2 mr-sm-2">
                         <InputGroup.Prepend>
                         <InputGroup.Text><FontAwesomeIcon icon='layer-group'/></InputGroup.Text>
                         </InputGroup.Prepend>
                         <Form.Control type="text" name="appId" value={this.state.appId} placeholder="Application ID" 
-                        onChange ={this.handleChange}/>
+                        onChange ={this.handleChange} required/>
                     </InputGroup> 
-                    <Button variant="secondary" type='button' size="lg" style={{ margin:'5px'}}>Clear</Button>
+                    <Button variant="secondary" type='button' onClick={this.clear} size="lg" style={{ margin:'5px'}}>Clear</Button>
                     <Button variant="success" type='submit' value="Submit" size="lg" >Go to Login</Button>                      
                 </Form>
             </Card>
@@ -120,8 +111,8 @@ class App extends Component{
         </Row>
         );
         return(
-            <div  style={{ marginTop:'150px'}}>
-               {isLoggedIn?dashboard : (isPlayground? playground : form )}
+            <div>
+               {isLoggedIn?<Dashboard loginState={this.logout}/> : <div style={{ marginTop:'150px'}}> {(isPlayground? playground : form )}</div>}
             </div>
         
         );
