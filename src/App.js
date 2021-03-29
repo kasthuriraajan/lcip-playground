@@ -46,15 +46,6 @@ class App extends Component{
     }
 
     register = (resp)=>{
-    //     fetch('http://localhost:9090/echo',{
-    //     method: 'POST',
-    //     headers: {
-    //         'content-type':'application/json'
-    //     },
-    //     body: JSON.stringify(userInfo)
-    // })
-    // .then(res => res.json())
-    // .then(data =>console.log(data));
         this.setState({isRegistered:resp});
     }
     clear = ()=>{
@@ -68,11 +59,6 @@ class App extends Component{
         var isPlayground = this.state.isPlayground;
         var isLoggedIn = this.state.isLoggedIn;
         var isRegistered = this.state.isRegistered;
-        // var dashboard = (
-        //     <div>
-        //         <h1>User app Dashboard</h1>
-        //         <Button variant="danger" type='button' loginState={this.logout}>Logout</Button>
-        //     </div>);
         var form = isRegistered?<Login goToRegisterPage= {this.register} loginState = {this.setLogin}/> : 
                     <Register getRegister={this.register}/>
                     
@@ -86,7 +72,7 @@ class App extends Component{
                 <h1> LCIP - Playground</h1>
                 <p>A Light-weight Cloud Identity provider</p>
             </Card.Header> 
-            <Card.Title  style={{ marginTop:'15px'}}><h2>Get Your Tokens</h2></Card.Title>
+            <Card.Title  style={{ marginTop:'15px'}}><h2>Explore your App</h2></Card.Title>
             <hr/>   
                 <Form style={{ margin:'15px'}} onSubmit={this.handleSubmit}>
                     <InputGroup className="mb-2 mr-sm-2">

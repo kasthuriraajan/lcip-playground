@@ -24,7 +24,6 @@ class Dashboard extends Component{
             appName = decoded['Application Name'];
             tenantName = decoded['Organization Name'];
             expiration = new Date(decoded['exp']*1000).toUTCString();
-            console.log(new Date());
             console.log(decoded);
         } 
         else{
