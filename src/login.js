@@ -103,7 +103,7 @@ class Login extends Component{
 
     getExpiryDate = ()=>{
         var expiryDate = new Date();
-        expiryDate.setHours(expiryDate.getHours()+1);
+        expiryDate.setMonth(expiryDate.getMonth()+1);
         var pre =expiryDate.toISOString().split("T"); 
         var suff = expiryDate.toUTCString().split(expiryDate.getFullYear());
         var finalExpiryDate = pre[0]+suff[1];
