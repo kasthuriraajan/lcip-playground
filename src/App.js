@@ -35,10 +35,12 @@ class App extends Component{
     }
 
     setLogin = (resp) =>{
+        localStorage.setItem("isLoggedin", resp);
         this.setState({isLoggedIn : resp, isPlayground : true,});
     }
     logout = (resp) => {
         localStorage.clear();
+        localStorage.setItem("isLoggedin", resp);
         this.setState({
             isLoggedIn : false,
             isPlayground : true
@@ -49,6 +51,7 @@ class App extends Component{
         this.setState({isRegistered:resp});
     }
     clear = ()=>{
+        localStorage.clear();
         this.setState({
             appId : "",
             tenantName:""
@@ -57,7 +60,6 @@ class App extends Component{
     
     render(){        
         var isPlayground = this.state.isPlayground;
-        var isLoggedIn = this.state.isLoggedIn;
         var isRegistered = this.state.isRegistered;
         var form = isRegistered?<Login goToRegisterPage= {this.register} loginState = {this.setLogin}/> : 
                     <Register getRegister={this.register}/>
@@ -98,7 +100,7 @@ class App extends Component{
         );
         return(
             <div>
-               {isLoggedIn?<Dashboard loginState={this.logout}/> : <>{(isPlayground? playground : form )}</>}
+               {(localStorage.getItem("isLoggedin")==='true')?<Dashboard loginState={this.logout}/> : <>{(isPlayground? playground : form )}</>}
             </div>
         
         );

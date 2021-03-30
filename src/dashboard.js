@@ -7,11 +7,43 @@ class Dashboard extends Component{
     constructor(props){
         super(props);
         this.state = {
-          dashboardContent : "USERS"
+          dashboardContent : "USERS",
+          verificationMsg : ""
         }
       }
     logout=()=>{
         this.props.loginState(false);
+    }
+    verifyToken = ()=>{
+        const tokenInfo = {
+            token : localStorage.getItem("token")
+        }
+        fetch('https://5n3eaptgj4.execute-api.us-east-1.amazonaws.com/dev//token/validate',{
+            method: 'POST',
+            headers: {
+                'content-type':'application/json'
+            },
+            body: JSON.stringify(tokenInfo)
+        })
+        .then(res => res.json())
+        .then(data =>this.verify(data));
+    }
+    reset = () => {
+        this.setState({verificationMsg :""});
+    }
+    verify = (data)=>{
+        if('status' in data){
+            this.setState({verificationMsg :data.status});
+        }
+        else{
+            if('Message' in data){
+                this.setState({verificationMsg :data.Message});
+            }
+            else{
+                this.setState({verificationMsg :data});
+                console.log(data)
+            }
+        }        
     }
     render(){
         var accesstoken = localStorage.getItem("token");
@@ -24,7 +56,6 @@ class Dashboard extends Component{
             appName = decoded['Application Name'];
             tenantName = decoded['Organization Name'];
             expiration = new Date(decoded['exp']*1000).toUTCString();
-            console.log(decoded);
         } 
         else{
             console.log("Not a valid token");
@@ -64,7 +95,9 @@ class Dashboard extends Component{
                             <td>{expiration}</td>
                         </tr>
                     </tbody>
-                </Table>  
+                </Table>
+                 {this.state.verificationMsg===""?<Button size="lg" onClick={this.verifyToken} style={{ margin:'5px'}}>Verify Token</Button>:
+                 <Button size="lg" onClick={this.reset} style={{ margin:'5px'}}>Ok</Button>} <h2> {this.state.verificationMsg}</h2>
             </Card.Text>  
         </Card>
 
